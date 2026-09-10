@@ -1,4 +1,5 @@
 import { MotionRoot } from "@/components/motion/MotionRoot";
+import { CookieBanner } from "@/components/website/CookieBanner";
 import { SiteFooter } from "@/components/website/SiteFooter";
 import { SiteHeader } from "@/components/website/SiteHeader";
 
@@ -15,6 +16,7 @@ export default function WebsiteLayout({ children }: LayoutProps<"/">) {
           <SiteFooter />
         </div>
       </div>
+      <CookieBanner />
     </MotionRoot>
   );
 }

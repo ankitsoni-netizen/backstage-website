@@ -86,9 +86,20 @@ export async function SiteFooter() {
       <Container>
         <div className="flex flex-col justify-between gap-3 border-t border-light-line py-6 text-sm text-ivory/55 sm:flex-row sm:items-center">
           <p>{year} Backstage</p>
-          <p className="font-serif text-base text-ivory/80">
-            The crew behind the curtain
-          </p>
+          <div className="flex flex-wrap gap-x-5 gap-y-2">
+            <Link
+              href="/privacy"
+              className="underline decoration-ivory/30 underline-offset-[0.3em] hover:text-ivory"
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              href="/cookies"
+              className="underline decoration-ivory/30 underline-offset-[0.3em] hover:text-ivory"
+            >
+              Cookie Policy
+            </Link>
+          </div>
         </div>
       </Container>
     </footer>

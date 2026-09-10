@@ -452,25 +452,9 @@
   transition: none;
 }
 
-html[data-home-intro="play"] .site-header {
-  background-color: transparent;
-  border-color: transparent;
-}
-
-html[data-home-intro="play"] .site-header-mark,
-html[data-home-intro="play"] .site-header-chrome {
-  opacity: 0;
-  pointer-events: none;
-}
-
 .site-header {
   transition: background-color 0.45s var(--ease-cinematic),
     border-color 0.45s var(--ease-cinematic);
-}
-
-.site-header-mark,
-.site-header-chrome {
-  transition: opacity 0.4s var(--ease-cinematic);
 }
 
 [data-motion-ready] .stagger-children > *:nth-child(1) { --i: 0; }
