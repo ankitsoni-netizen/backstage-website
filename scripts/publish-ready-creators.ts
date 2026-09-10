@@ -118,7 +118,7 @@ async function main() {
   const creators = data ?? [];
   const ready = creators.filter(isPublishReady);
   const readyBySlug = new Map(ready.map((creator) => [creator.slug, creator]));
-  const featuredSlugs = new Set(
+  const featuredSlugs = new Set<string>(
     HOMEPAGE_FEATURED_SLUGS.filter((slug) => readyBySlug.has(slug)).slice(
       0,
       HOMEPAGE_FEATURED_LIMIT,
