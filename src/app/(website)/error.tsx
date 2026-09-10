@@ -13,10 +13,10 @@ export default function WebsiteError({ error, retry }: WebsiteErrorProps) {
   return (
     <main id="main-content" className="flex-1 py-16 md:py-24">
       <Container>
-        <h1 className="max-w-[12ch] text-title">
+        <h1 className="max-w-[12ch] text-display-sm">
           This page could not <Highlight>load</Highlight>.
         </h1>
-        <p className="mt-5 max-w-prose text-base leading-relaxed text-muted">
+        <p className="mt-5 max-w-[38rem] text-base leading-relaxed text-muted">
           Something went wrong while rendering the site. You can try again, or
           come back shortly.
         </p>

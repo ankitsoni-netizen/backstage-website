@@ -1,3 +1,4 @@
+export const cinematicEase = [0.16, 1, 0.3, 1] as const;
 export const editorialEase = [0.22, 1, 0.36, 1] as const;
 
 export const revealItem = {

@@ -15,3 +15,20 @@ export function getSafeHttpUrl(value: string | null | undefined): string | null 
     return null;
   }
 }
+
+export function instagramHandleFromUrl(
+  value: string | null | undefined,
+): string | null {
+  const href = getSafeHttpUrl(value);
+
+  if (!href) {
+    return null;
+  }
+
+  try {
+    const handle = new URL(href).pathname.split("/").filter(Boolean)[0];
+    return handle ? handle.replace(/^@/, "").toLowerCase().slice(0, 80) : null;
+  } catch {
+    return null;
+  }
+}

@@ -26,7 +26,9 @@ function readText(
   return null;
 }
 
-export function mapSiteSettingsRow(row: SiteSettingsRow): SiteSettings {
+export function mapSiteSettingsRow(
+  row: Pick<SiteSettingsRow, "setting_key" | "setting_value">,
+): SiteSettings {
   const value = asRecord(row.setting_value);
 
   return {

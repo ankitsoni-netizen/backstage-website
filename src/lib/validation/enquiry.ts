@@ -1,8 +1,22 @@
 import { z } from "zod";
 
-export const enquiryStatusSchema = z.enum(["new", "in_progress", "closed"]);
+export const enquiryStatuses = [
+  "new",
+  "contacted",
+  "qualified",
+  "closed",
+  "spam",
+] as const;
 
-export const enquiryTypes = ["brand", "talent", "business", "other"] as const;
+export const enquiryStatusSchema = z.enum(enquiryStatuses);
+
+export const enquiryTypes = [
+  "book_talent",
+  "brand_partnership",
+  "join_roster",
+  "press",
+  "general",
+] as const;
 export const budgetRanges = [
   "under_5l",
   "5l_15l",
@@ -18,10 +32,19 @@ export const campaignTimelines = [
 ] as const;
 
 export const enquiryTypeLabels: Record<(typeof enquiryTypes)[number], string> = {
-  brand: "Brand partnership",
-  talent: "Talent enquiry",
-  business: "A bigger idea",
-  other: "Something else",
+  book_talent: "Book talent",
+  brand_partnership: "Brand partnership",
+  join_roster: "Join the roster",
+  press: "Press",
+  general: "General",
+};
+
+export const enquiryStatusLabels: Record<(typeof enquiryStatuses)[number], string> = {
+  new: "New",
+  contacted: "Contacted",
+  qualified: "Qualified",
+  closed: "Closed",
+  spam: "Spam",
 };
 
 export const budgetRangeLabels: Record<(typeof budgetRanges)[number], string> = {

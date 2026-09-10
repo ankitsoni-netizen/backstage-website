@@ -7,5 +7,9 @@ export function isAdminRole(role: string | null | undefined): role is ProfileRol
 }
 
 export function hasAdminAccess(profile: Profile | null): profile is Profile {
-  return profile !== null && isAdminRole(profile.role);
+  return (
+    profile !== null &&
+    profile.is_active === true &&
+    isAdminRole(profile.role)
+  );
 }

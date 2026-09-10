@@ -14,7 +14,7 @@ export function TextLink({ children, className, href }: TextLinkProps) {
     <Link
       href={href}
       className={cn(
-        "underline decoration-ink/40 underline-offset-[0.28em] transition-colors duration-200 hover:decoration-ink",
+        "underline decoration-ink/35 underline-offset-[0.28em] transition-colors duration-200 hover:decoration-ink",
         className,
       )}
     >

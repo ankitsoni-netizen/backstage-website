@@ -120,13 +120,11 @@ export function TalentRoster({
 
         {categories.length > 0 ? (
           <fieldset>
-            <legend className="text-sm font-medium tracking-[-0.02em]">
-              Category
-            </legend>
+            <legend className="text-kicker text-muted">Category</legend>
             <div
               role="radiogroup"
               aria-label="Filter by category"
-              className="mt-2 flex flex-wrap gap-2"
+              className="mt-3 flex flex-wrap gap-2"
             >
               <CategoryFilter
                 checked={category === ""}
@@ -182,10 +180,13 @@ export function TalentRoster({
           }
         />
       ) : (
-        <Stagger className="mt-8 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-14">
+        <Stagger className="mt-8 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
           {visible.map((creator, index) => (
             <StaggerItem key={creator.id}>
-              <CreatorCard creator={creator} priority={index < 3} />
+              <CreatorCard
+                creator={creator}
+                priority={index < 6}
+              />
             </StaggerItem>
           ))}
         </Stagger>
@@ -206,7 +207,7 @@ function CategoryFilter({ checked, label, onSelect }: CategoryFilterProps) {
       className={cn(
         "inline-flex min-h-11 cursor-pointer items-center border px-4 text-sm tracking-[-0.02em] transition-colors duration-200 has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-3 has-[:focus-visible]:outline-ink",
         checked
-          ? "border-ink bg-ink text-paper"
+          ? "border-oxblood bg-oxblood text-ivory"
           : "border-line bg-transparent text-ink hover:border-ink",
       )}
     >

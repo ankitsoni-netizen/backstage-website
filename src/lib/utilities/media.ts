@@ -1,8 +1,8 @@
 export const creatorFallbackTones = [
-  "powder",
-  "blush",
-  "signal",
-  "orange",
+  "greige",
+  "charcoal",
+  "ivory",
+  "warm",
 ] as const;
 
 export type CreatorFallbackTone = (typeof creatorFallbackTones)[number];

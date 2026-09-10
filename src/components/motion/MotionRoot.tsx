@@ -18,10 +18,9 @@ function loadMotionFeatures() {
 
 export function MotionRoot({ children }: MotionRootProps) {
   const reducedMotion = useReducedMotion();
-  const enableSmoothScroll = reducedMotion !== true;
 
   useEffect(() => {
-    if (!enableSmoothScroll) {
+    if (reducedMotion === true) {
       delete document.documentElement.dataset.publicMotion;
       return;
     }
@@ -31,26 +30,13 @@ export function MotionRoot({ children }: MotionRootProps) {
     return () => {
       delete document.documentElement.dataset.publicMotion;
     };
-  }, [enableSmoothScroll]);
+  }, [reducedMotion]);
 
   return (
     <LazyMotion features={loadMotionFeatures} strict>
       <MotionConfig reducedMotion="user">
-        <ReactLenis
-          root
-          options={
-            enableSmoothScroll
-              ? publicLenisOptions
-              : {
-                  ...publicLenisOptions,
-                  anchors: false,
-                  autoRaf: false,
-                  lerp: 1,
-                  smoothWheel: false,
-                }
-          }
-        >
-          {children}
+        <ReactLenis root options={publicLenisOptions}>
+          <div data-motion-ready="true">{children}</div>
         </ReactLenis>
       </MotionConfig>
     </LazyMotion>

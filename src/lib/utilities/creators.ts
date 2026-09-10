@@ -1,5 +1,7 @@
+import { parseOtherSocialLinks } from "@/lib/utilities/social-links";
 import { getPrimaryCategory } from "@/lib/utilities/media";
 import { getSafeHttpUrl } from "@/lib/utilities/urls";
+import type { Json } from "@/types/database";
 import type {
   PublicCreator,
   PublicCreatorSocialLink,
@@ -15,6 +17,7 @@ export type PublicCreatorSource = {
   id: string;
   instagram_followers?: number | null;
   instagram_url: string | null;
+  other_social_links?: Json | null;
   primary_category?: string | null;
   profile_image_path: string | null;
   published_at: string | null;
@@ -28,6 +31,7 @@ export type PublicCreatorSource = {
 };
 
 export function toPublicCreator(row: PublicCreatorSource): PublicCreator {
+  const socials = parseOtherSocialLinks(row.other_social_links);
   const categories = (row.categories ?? []).filter(
     (category) => category.trim().length > 0,
   );
@@ -45,7 +49,7 @@ export function toPublicCreator(row: PublicCreatorSource): PublicCreator {
     id: row.id,
     instagram_followers: normaliseFollowerCount(row.instagram_followers),
     instagram_url: row.instagram_url,
-    linkedin_url: null,
+    linkedin_url: socials.linkedin_url,
     primary_category:
       row.primary_category?.trim() || getPrimaryCategory(categories),
     profile_image_path: row.profile_image_path,
@@ -55,9 +59,9 @@ export function toPublicCreator(row: PublicCreatorSource): PublicCreator {
     short_bio: row.short_bio ?? null,
     slug: row.slug,
     sort_order: row.sort_order ?? 0,
-    tiktok_followers: null,
-    tiktok_url: null,
-    twitter_url: null,
+    tiktok_followers: socials.tiktok_followers,
+    tiktok_url: socials.tiktok_url,
+    twitter_url: socials.twitter_url,
     youtube_followers: normaliseFollowerCount(row.youtube_subscribers),
     youtube_url: row.youtube_url,
   };
@@ -93,7 +97,9 @@ export function getCreatorCategoryLabels(creator: PublicCreator): string[] {
 }
 
 export function collectRosterCategories(creators: PublicCreator[]): string[] {
-  const labels = creators.flatMap((creator) => getCreatorCategoryLabels(creator));
+  const labels = creators
+    .flatMap((creator) => getCreatorCategoryLabels(creator))
+    .filter((label) => label.toLowerCase() !== "needs classification");
   return uniqueLabels(labels).sort((a, b) =>
     a.localeCompare(b, "en", { sensitivity: "base" }),
   );

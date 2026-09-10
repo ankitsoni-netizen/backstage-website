@@ -13,7 +13,9 @@ import {
 import type { SiteSettings, SiteSettingsRow } from "@/types/database";
 import type { SiteSettingsFormOutput } from "@/lib/validation/settings";
 
-function mapRow(row: SiteSettingsRow | null): SiteSettings | null {
+function mapRow(
+  row: Pick<SiteSettingsRow, "setting_key" | "setting_value"> | null,
+): SiteSettings | null {
   return row ? mapSiteSettingsRow(row) : null;
 }
 
@@ -21,7 +23,7 @@ export async function getSiteSettings(): Promise<SiteSettings | null> {
   const supabase = createPublicClient();
   const { data, error } = await supabase
     .from("site_settings")
-    .select("*")
+    .select("setting_key, setting_value, is_public")
     .eq("setting_key", SITE_SETTINGS_KEY)
     .eq("is_public", true)
     .maybeSingle();

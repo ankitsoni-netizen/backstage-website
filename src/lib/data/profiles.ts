@@ -10,6 +10,7 @@ export async function listStaffProfiles(): Promise<Profile[]> {
     .from("profiles")
     .select("*")
     .in("role", ["admin", "editor"])
+    .eq("is_active", true)
     .order("full_name", { ascending: true });
 
   return unwrapSupabaseResult(data ?? [], error, "Failed to load staff");

@@ -16,6 +16,7 @@ import {
 } from "@/lib/admin/media";
 import { deleteCreatorMedia, uploadCreatorMedia } from "@/lib/admin/actions/media";
 import { saveCreatorAction } from "@/lib/admin/actions/creators";
+import { parseOtherSocialLinks } from "@/lib/utilities/social-links";
 import { toCategoriesText } from "@/lib/validation/creator";
 import {
   creatorPublishSchema,
@@ -29,6 +30,7 @@ type CreatorFormProps = {
 
 function valuesFromCreator(creator?: Creator | null): CreatorFormValues {
   const displayName = creator?.display_name?.trim() || "";
+  const socials = parseOtherSocialLinks(creator?.other_social_links);
 
   return {
     categories_text: toCategoriesText(creator?.categories),
@@ -40,7 +42,7 @@ function valuesFromCreator(creator?: Creator | null): CreatorFormValues {
     instagram_followers: creator?.instagram_followers ?? "",
     instagram_url: creator?.instagram_url ?? "",
     intent: "draft",
-    linkedin_url: "",
+    linkedin_url: socials.linkedin_url ?? "",
     manager_name: creator?.manager_name ?? "",
     primary_category: creator?.primary_category ?? "",
     profile_image_path: creator?.profile_image_path ?? "",
@@ -49,9 +51,9 @@ function valuesFromCreator(creator?: Creator | null): CreatorFormValues {
     short_bio: creator?.short_bio ?? "",
     slug: creator?.slug ?? "",
     sort_order: creator?.sort_order ?? 0,
-    tiktok_followers: "",
-    tiktok_url: "",
-    twitter_url: "",
+    tiktok_followers: socials.tiktok_followers ?? "",
+    tiktok_url: socials.tiktok_url ?? "",
+    twitter_url: socials.twitter_url ?? "",
     youtube_followers: creator?.youtube_subscribers ?? "",
     youtube_url: creator?.youtube_url ?? "",
   };

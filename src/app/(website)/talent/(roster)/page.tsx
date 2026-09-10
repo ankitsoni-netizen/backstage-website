@@ -43,20 +43,18 @@ export default async function TalentPage({
   }
 
   return (
-    <main id="main-content" className="flex-1">
-      <Container className="border-b border-line py-12 md:py-16">
-        <SectionLabel>Roster</SectionLabel>
-        <Reveal as="h1" className="mt-5 max-w-[10ch] text-display">
-          Talent
-        </Reveal>
-        <p className="mt-6 max-w-prose text-lg leading-relaxed text-muted">
-          Names we{" "}
-          <span className="font-semibold text-ink underline decoration-ink/40 underline-offset-[0.18em]">
-            represent
-          </span>
-          . Search by creator, category, or city.
-        </p>
-      </Container>
+    <main id="main-content" className="flex-1 bg-greige">
+      <section className="relative overflow-hidden border-b border-line">
+        <Container className="relative py-16 md:py-24">
+          <SectionLabel index="01">Casting</SectionLabel>
+          <Reveal as="h1" className="mt-4 max-w-[12ch] text-display">
+            The roster
+          </Reveal>
+          <p className="mt-6 max-w-[34rem] text-base leading-relaxed text-muted">
+            Names we represent. Search by creator, category, or city.
+          </p>
+        </Container>
+      </section>
       <TalentRoster
         creators={creators}
         initialCategory={initialCategory}

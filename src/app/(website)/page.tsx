@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 
-import { EditorialTicker } from "@/components/motion/EditorialTicker";
-import { FeaturedCreators, FeaturedCreatorsFallback } from "@/components/website/home/FeaturedCreators";
-import { FinalCta } from "@/components/website/home/FinalCta";
+import { GreenRoom } from "@/components/website/home/GreenRoom";
 import { HomeHero } from "@/components/website/home/HomeHero";
-import { Ownership } from "@/components/website/home/Ownership";
-import { Positioning } from "@/components/website/home/Positioning";
-import { Services } from "@/components/website/home/Services";
+import { HomeImpact } from "@/components/website/home/HomeImpact";
+import { HomeNameMarquee } from "@/components/website/home/HomeNameMarquee";
+import { HomeWhatWeDo } from "@/components/website/home/HomeWhatWeDo";
+import { HomeWhy } from "@/components/website/home/HomeWhy";
+import { listHomepageCreators, listPublishedCreators } from "@/lib/data/creators";
 import { getPublicSiteSettings } from "@/lib/data/settings";
+import { toPublicCreatorCard } from "@/lib/utilities/creator-card";
+import type { PublicCreator } from "@/types/public";
 
 const defaultTitle = "Backstage";
 const defaultDescription =
@@ -42,18 +43,41 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function HomePage() {
+export default async function HomePage() {
+  let featured: PublicCreator[] = [];
+  let roster: PublicCreator[] = [];
+
+  try {
+    const homepage = await listHomepageCreators();
+    featured = homepage.creators;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    console.error("Failed to load homepage creators", message);
+  }
+
+  try {
+    roster = await listPublishedCreators();
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    console.error("Failed to load published creators", message);
+  }
+
+  const featuredCards = featured.map(toPublicCreatorCard);
+  const rosterCards = roster.map(toPublicCreatorCard);
+  const marqueeCards = rosterCards.length > 0 ? rosterCards : featuredCards;
+  const heroCards =
+    featuredCards.length > 0
+      ? [...featuredCards, ...rosterCards]
+      : marqueeCards;
+
   return (
     <main id="main-content">
-      <HomeHero />
-      <Suspense fallback={<FeaturedCreatorsFallback />}>
-        <FeaturedCreators />
-      </Suspense>
-      <Positioning />
-      <Services />
-      <EditorialTicker />
-      <Ownership />
-      <FinalCta />
+      <HomeHero creators={heroCards} />
+      <HomeWhatWeDo />
+      <HomeNameMarquee creators={marqueeCards} />
+      <GreenRoom creators={featuredCards} />
+      <HomeWhy />
+      <HomeImpact />
     </main>
   );
 }

@@ -43,7 +43,7 @@ const defaultValues = (
   company: "",
   creator_id: creator?.id ?? "",
   creator_name: creator?.display_name ?? "",
-  enquiry_type: creator ? "talent" : "brand",
+  enquiry_type: creator ? "book_talent" : "brand_partnership",
   name: "",
   phone: "",
   preferred_meeting_date: "",
@@ -356,7 +356,7 @@ function EnquiryTypeOption({
       className={cn(
         "inline-flex min-h-11 cursor-pointer items-center border px-4 text-sm tracking-[0.02em] transition-colors duration-200 has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-3 has-[:focus-visible]:outline-ink",
         checked
-          ? "border-ink bg-ink text-paper"
+          ? "border-oxblood bg-oxblood text-ivory"
           : "border-line bg-transparent text-ink hover:border-ink",
       )}
     >

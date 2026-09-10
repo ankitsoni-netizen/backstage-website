@@ -12,23 +12,16 @@ export function SectionLabel({
   index,
 }: SectionLabelProps) {
   return (
-    <p
-      className={cn(
-        "flex items-baseline gap-3 text-sm font-medium uppercase tracking-[0.14em] text-ink",
-        className,
-      )}
-    >
+    <p className={cn("flex items-center gap-3 text-kicker text-muted", className)}>
       {index ? (
-        <span className="text-xs tracking-[0.16em]">{index}</span>
+        <span className="text-[0.65rem] tracking-[0.2em] text-oxblood">{index}</span>
       ) : (
         <span
           aria-hidden
-          className="inline-block h-[2px] w-6 shrink-0 bg-signal"
+          className="inline-block h-px w-8 shrink-0 bg-current opacity-40"
         />
       )}
-      <span className="underline decoration-ink/45 underline-offset-[0.28em]">
-        {children}
-      </span>
+      <span>{children}</span>
     </p>
   );
 }

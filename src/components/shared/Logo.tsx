@@ -25,7 +25,7 @@ export function Logo({
       width={BACKSTAGE_LOGO_WIDTH}
       height={BACKSTAGE_LOGO_HEIGHT}
       className={cn(
-        "h-8 w-auto",
+        "h-7 w-auto max-w-[10.5rem] object-contain object-left sm:h-8",
         tone === "ink" && "invert",
         className,
       )}

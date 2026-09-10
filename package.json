@@ -10,7 +10,8 @@
     "import-roster": "tsx --env-file=.env.local scripts/import-roster.ts",
     "import-roster:dry-run": "tsx --env-file=.env.local scripts/import-roster.ts --dry-run",
     "import-creator-images": "tsx --env-file=.env.local scripts/import-creator-images.ts",
-    "import-creator-images:report": "tsx --env-file=.env.local scripts/import-creator-images.ts"
+    "import-creator-images:report": "tsx --env-file=.env.local scripts/import-creator-images.ts",
+    "publish-ready-creators": "tsx --env-file=.env.local scripts/publish-ready-creators.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",

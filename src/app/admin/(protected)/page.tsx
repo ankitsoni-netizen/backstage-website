@@ -8,6 +8,7 @@ import { getAdminCreatorName } from "@/lib/utilities/admin-display";
 import { formatAdminDate } from "@/lib/utilities/format";
 import {
   budgetRangeLabels,
+  enquiryStatusLabels,
   enquiryTypeLabels,
   type EnquiryType,
 } from "@/lib/validation/enquiry";
@@ -64,7 +65,7 @@ export default async function AdminDashboardPage() {
                     >
                       <p className="text-sm font-medium">{enquiry.name}</p>
                       <p className="mt-1 text-xs text-muted">
-                        {enquiry.status.replace("_", " ")}
+                        {enquiryStatusLabels[enquiry.status]}
                         {type && type in enquiryTypeLabels
                           ? ` · ${enquiryTypeLabels[type]}`
                           : ""}

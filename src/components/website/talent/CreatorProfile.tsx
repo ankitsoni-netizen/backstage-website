@@ -43,15 +43,25 @@ export function CreatorProfile({ creator, nextCreator }: CreatorProfileProps) {
 
         <div className="flex flex-col md:col-span-6 md:col-start-7 lg:col-span-6 lg:col-start-7">
           <SectionLabel>{creator.primary_category}</SectionLabel>
-          <Reveal as="h1" className="mt-5 max-w-[12ch] text-display">
+          <Reveal as="h1" className="mt-5 max-w-[16ch] text-display">
             {creator.display_name}
           </Reveal>
           {creator.city ? (
             <p className="mt-4 text-lg text-muted">{creator.city}</p>
           ) : null}
 
+          {bioParagraphs.length > 0 ? (
+            <div className="mt-8 flex max-w-[38rem] flex-col gap-5 text-base leading-relaxed text-ink md:text-lg">
+              {bioParagraphs.map((paragraph) => (
+                <p key={paragraph} className="whitespace-pre-wrap">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+          ) : null}
+
           {categories.length > 1 ? (
-            <ul className="mt-6 flex flex-wrap gap-2">
+            <ul className="mt-8 flex flex-wrap gap-2">
               {categories.map((category) => (
                 <li
                   key={category}
@@ -89,25 +99,12 @@ export function CreatorProfile({ creator, nextCreator }: CreatorProfileProps) {
           ) : null}
 
           <div className="mt-10">
-            <Button href={getCreatorEnquiryHref(creator.slug)} variant="signal">
+            <Button href={getCreatorEnquiryHref(creator.slug)}>
               Enquire about this creator
             </Button>
           </div>
         </div>
       </Container>
-
-      {bioParagraphs.length > 0 ? (
-        <Container width="narrow" className="py-12 md:py-16">
-          <SectionLabel>Profile</SectionLabel>
-          <div className="mt-6 flex flex-col gap-5 text-lg leading-relaxed">
-            {bioParagraphs.map((paragraph) => (
-              <p key={paragraph} className="whitespace-pre-wrap">
-                {paragraph}
-              </p>
-            ))}
-          </div>
-        </Container>
-      ) : null}
 
       <Container className="flex flex-col gap-6 border-t border-line py-10 md:flex-row md:items-end md:justify-between">
         <TextLink href="/talent">Back to the roster</TextLink>

@@ -1,4 +1,5 @@
 import { requireAdmin } from "@/lib/auth/session";
+import { compareHomepageFeatured } from "@/lib/content/homepage-featured";
 import { createPublicClient } from "@/lib/supabase/public";
 import { createClient } from "@/lib/supabase/server";
 import {
@@ -10,8 +11,9 @@ import {
   requireSupabaseRow,
   unwrapSupabaseResult,
 } from "@/lib/utilities/errors";
-import type { CreatorFormOutput } from "@/lib/validation/creator";
-import { parseCategoriesText } from "@/lib/validation/creator";
+import { parseCategoriesText, type CreatorFormOutput } from "@/lib/validation/creator";
+import { mergeOtherSocialLinks } from "@/lib/utilities/social-links";
+import { instagramHandleFromUrl } from "@/lib/utilities/urls";
 import type { Creator, CreatorInsert } from "@/types/database";
 import type { PublicCreator } from "@/types/public";
 
@@ -29,9 +31,11 @@ const PUBLIC_CREATOR_SELECT = `
   profile_image_path,
   hero_image_path,
   instagram_url,
-  youtube_url,
+  instagram_handle,
   instagram_followers,
+  youtube_url,
   youtube_subscribers,
+  other_social_links,
   featured,
   sort_order,
   published_at,
@@ -102,8 +106,20 @@ export async function listHomepageCreators(): Promise<HomepageCreators> {
     });
 
     if (featuredRows.length > 0) {
+      const creators = mapPublicCreators(featuredRows)
+        .sort((left, right) => {
+          const featuredOrder = compareHomepageFeatured(left.slug, right.slug);
+
+          if (featuredOrder !== 0) {
+            return featuredOrder;
+          }
+
+          return comparePublicCreators(left, right);
+        })
+        .slice(0, HOMEPAGE_CREATOR_LIMIT);
+
       return {
-        creators: mapPublicCreators(featuredRows).slice(0, HOMEPAGE_CREATOR_LIMIT),
+        creators,
         source: "featured",
       };
     }
@@ -176,7 +192,7 @@ function statusFromIntent(intent: CreatorFormOutput["intent"]) {
 
 export function toCreatorRecord(
   input: CreatorFormOutput,
-  current?: Pick<Creator, "published_at"> | null,
+  current?: Pick<Creator, "other_social_links" | "published_at"> | null,
 ): CreatorInsert {
   const categories = parseCategoriesText(input.categories_text);
   const status = statusFromIntent(input.intent);
@@ -193,8 +209,15 @@ export function toCreatorRecord(
     full_bio: input.full_bio,
     hero_image_path: input.hero_image_path,
     instagram_followers: input.instagram_followers,
+    instagram_handle: instagramHandleFromUrl(input.instagram_url),
     instagram_url: input.instagram_url,
     manager_name: input.manager_name,
+    other_social_links: mergeOtherSocialLinks(current?.other_social_links, {
+      linkedin_url: input.linkedin_url,
+      tiktok_followers: input.tiktok_followers,
+      tiktok_url: input.tiktok_url,
+      twitter_url: input.twitter_url,
+    }),
     primary_category: input.primary_category,
     profile_image_path: input.profile_image_path,
     published_at: publishedAt,
@@ -241,7 +264,7 @@ export async function createCreator(input: CreatorFormOutput): Promise<Creator> 
 export async function updateCreator(
   id: string,
   input: CreatorFormOutput,
-  current?: Pick<Creator, "published_at"> | null,
+  current?: Pick<Creator, "other_social_links" | "published_at"> | null,
 ): Promise<Creator> {
   await requireAdmin();
   const supabase = await createClient();

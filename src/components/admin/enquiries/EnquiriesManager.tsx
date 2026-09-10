@@ -6,6 +6,8 @@ import { useState } from "react";
 import { Field, controlClassName } from "@/components/ui/Field";
 import { formatAdminDate } from "@/lib/utilities/format";
 import {
+  enquiryStatusLabels,
+  enquiryStatuses,
   enquiryTypeLabels,
   enquiryTypes,
   type EnquiryType,
@@ -17,7 +19,7 @@ type EnquiriesManagerProps = {
   enquiries: Enquiry[];
 };
 
-const statuses: EnquiryStatus[] = ["new", "in_progress", "closed"];
+const statuses = enquiryStatuses;
 
 export function EnquiriesManager({
   creatorNames,
@@ -52,7 +54,7 @@ export function EnquiriesManager({
             <option value="">All</option>
             {statuses.map((item) => (
               <option key={item} value={item}>
-                {item.replace("_", " ")}
+                {enquiryStatusLabels[item]}
               </option>
             ))}
           </select>
@@ -109,7 +111,7 @@ export function EnquiriesManager({
                     <td className="px-3 py-2">
                       <p className="font-medium">{enquiry.name}</p>
                       <p className="text-xs text-muted">
-                        {enquiry.work_email || enquiry.email}
+                        {enquiry.work_email}
                       </p>
                     </td>
                     <td className="px-3 py-2">
@@ -119,7 +121,9 @@ export function EnquiriesManager({
                     </td>
                     <td className="px-3 py-2">{creatorLabel}</td>
                     <td className="px-3 py-2">
-                      {enquiry.status.replace("_", " ")}
+                      {enquiry.status in enquiryStatusLabels
+                        ? enquiryStatusLabels[enquiry.status]
+                        : enquiry.status}
                     </td>
                     <td className="px-3 py-2 text-muted">
                       {formatAdminDate(enquiry.created_at)}

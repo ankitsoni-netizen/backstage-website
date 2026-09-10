@@ -7,12 +7,15 @@ type AppHref = ComponentProps<typeof Link>["href"];
 
 const variants = {
   primary:
-    "border-foreground bg-foreground text-surface hover:bg-transparent hover:text-foreground",
-  signal: "border-signal bg-signal text-ink hover:bg-transparent",
+    "rounded-full border border-ink bg-ink text-ivory hover:border-oxblood hover:bg-oxblood hover:text-ivory",
   ghost:
-    "border-foreground bg-transparent text-foreground hover:bg-foreground hover:text-surface",
+    "rounded-full border border-ink bg-transparent text-ink hover:border-oxblood hover:text-oxblood",
   inverse:
-    "border-paper bg-transparent text-paper hover:bg-paper hover:text-ink",
+    "rounded-full border border-ivory/70 bg-transparent text-ivory hover:bg-ivory hover:text-ink",
+  light:
+    "rounded-full border-2 border-ivory bg-ivory text-ink hover:border-ink hover:bg-ink hover:text-ivory",
+  stage:
+    "rounded-full min-h-14 border border-ink bg-ink px-8 text-ivory hover:border-oxblood hover:bg-oxblood hover:text-ivory",
 } as const;
 
 type ButtonVariant = keyof typeof variants;
@@ -37,7 +40,7 @@ export function Button({
   ...props
 }: ButtonAsButton | ButtonAsLink) {
   const composedClassName = cn(
-    "inline-flex min-h-11 items-center justify-center border px-5 py-2 text-sm font-medium tracking-[0.06em] uppercase transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-50",
+    "inline-flex min-h-12 items-center justify-center px-7 py-2 text-sm font-medium tracking-[0.14em] uppercase transition-colors duration-300 disabled:cursor-not-allowed disabled:opacity-50",
     variants[variant],
     className,
   );

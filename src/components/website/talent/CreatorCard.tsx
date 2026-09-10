@@ -1,9 +1,9 @@
 import Link from "next/link";
 
 import { CreatorImage } from "@/components/ui/CreatorImage";
+import type { PublicCreator } from "@/types/public";
 import { getCreatorProfileImage } from "@/lib/utilities/creators";
 import { resolveMediaUrl } from "@/lib/utilities/storage";
-import type { PublicCreator } from "@/types/public";
 
 type CreatorCardProps = {
   creator: PublicCreator;
@@ -23,18 +23,13 @@ export function CreatorCard({ creator, priority = false }: CreatorCardProps) {
           priority={priority}
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
-        <p className="mt-4 text-sm font-medium uppercase tracking-[0.12em] text-muted">
-          {creator.primary_category}
-        </p>
-        <h2 className="mt-1 font-sans text-2xl font-bold tracking-[-0.02em] underline decoration-transparent underline-offset-[0.18em] transition-colors duration-200 group-hover:decoration-ink">
+        <h2 className="mt-4 font-display text-[1.45rem] leading-tight font-semibold tracking-[-0.03em] uppercase">
           {creator.display_name}
         </h2>
+        <p className="mt-2 text-kicker text-oxblood">{creator.primary_category}</p>
         {creator.city ? (
           <p className="mt-1 text-sm text-muted">{creator.city}</p>
         ) : null}
-        <p className="mt-3 text-sm uppercase tracking-[0.08em] underline decoration-ink/30 underline-offset-[0.28em] transition-colors duration-200 group-hover:decoration-ink">
-          View profile
-        </p>
       </Link>
     </article>
   );

@@ -4,7 +4,7 @@ import { requireAdmin } from "@/lib/auth/session";
 export default async function ProtectedAdminLayout({
   children,
 }: LayoutProps<"/admin">) {
-  const { profile } = await requireAdmin();
+  const { profile, user } = await requireAdmin();
 
   return (
     <div className="flex min-h-full flex-col lg:flex-row">
@@ -12,7 +12,7 @@ export default async function ProtectedAdminLayout({
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="flex items-center justify-between border-b border-line px-4 py-3 sm:px-6">
           <p className="text-sm text-muted">
-            {profile.full_name ?? profile.email ?? "Staff"}
+            {profile.full_name ?? user.email ?? "Staff"}
             <span className="mx-2 text-line">/</span>
             {profile.role}
           </p>

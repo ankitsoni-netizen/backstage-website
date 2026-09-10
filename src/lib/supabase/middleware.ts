@@ -11,8 +11,13 @@ function isAdminPath(pathname: string): boolean {
   return pathname === "/admin" || pathname.startsWith("/admin/");
 }
 
-function isAdminLoginPath(pathname: string): boolean {
-  return pathname === "/admin/login" || pathname.startsWith("/admin/login/");
+function isAdminPublicAuthPath(pathname: string): boolean {
+  return (
+    pathname === "/admin/login" ||
+    pathname.startsWith("/admin/login/") ||
+    pathname === "/admin/forgot-password" ||
+    pathname.startsWith("/admin/forgot-password/")
+  );
 }
 
 function redirectWithCookies(url: URL, source: NextResponse) {
@@ -82,7 +87,7 @@ export async function updateSession(request: NextRequest) {
   const profile = user ? await getProfileForUser(supabase, user.id) : null;
   const canAccessAdmin = hasAdminAccess(profile);
 
-  if (isAdminPath(pathname) && !isAdminLoginPath(pathname)) {
+  if (isAdminPath(pathname) && !isAdminPublicAuthPath(pathname)) {
     if (!user) {
       const loginUrl = request.nextUrl.clone();
       loginUrl.pathname = "/admin/login";
@@ -100,7 +105,7 @@ export async function updateSession(request: NextRequest) {
     }
   }
 
-  if (user && canAccessAdmin && isAdminLoginPath(pathname)) {
+  if (user && canAccessAdmin && isAdminPublicAuthPath(pathname)) {
     const destination = request.nextUrl.clone();
     destination.pathname = getSafeRedirectPath(
       request.nextUrl.searchParams.get("next"),

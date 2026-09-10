@@ -5,5 +5,5 @@ export function getAdminCreatorName(creator: Creator): string {
 }
 
 export function getStaffLabel(profile: Profile): string {
-  return profile.full_name?.trim() || profile.email?.trim() || "Staff";
+  return profile.full_name?.trim() || "Staff";
 }

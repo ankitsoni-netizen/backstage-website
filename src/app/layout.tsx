@@ -1,12 +1,27 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Barlow_Condensed, Geist, Instrument_Serif } from "next/font/google";
 
 import { getMetadataBaseUrl } from "@/lib/utilities/site-url";
 import "./globals.css";
 
-const inter = Inter({
+const geist = Geist({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-geist",
+  display: "swap",
+});
+
+const barlow = Barlow_Condensed({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-barlow",
+  display: "swap",
+});
+
+const instrument = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-instrument",
   display: "swap",
 });
 
@@ -22,7 +37,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en-IN" className={`${inter.variable} h-full antialiased`}>
+    <html
+      lang="en-IN"
+      className={`${geist.variable} ${barlow.variable} ${instrument.variable} h-full antialiased`}
+    >
       <body className="flex min-h-full flex-col bg-surface font-sans text-base font-normal text-foreground">
         {children}
       </body>

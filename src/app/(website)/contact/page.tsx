@@ -50,13 +50,9 @@ export default async function ContactPage({
           <Reveal as="h1" className="mt-5 max-w-[12ch] text-display">
             A great partnership starts <Highlight>off-script</Highlight>.
           </Reveal>
-          <p className="mt-6 max-w-prose text-lg leading-relaxed text-muted">
+          <p className="mt-6 max-w-[38rem] text-lg leading-relaxed text-muted">
             Brand brief, talent enquiry or a bigger business idea—bring us the
-            ambition. We&apos;ll bring the{" "}
-            <span className="font-semibold text-ink underline decoration-ink/40 underline-offset-[0.18em]">
-              right people
-            </span>{" "}
-            into the room.
+            ambition. We&apos;ll bring the right people into the room.
           </p>
 
           {contactEmail || meetingUrl ? (
@@ -87,27 +83,29 @@ export default async function ContactPage({
           ) : null}
 
           {slug && !creator ? (
-            <p className="mt-8 max-w-prose text-base text-muted">
+            <p className="mt-8 max-w-[38rem] text-base text-muted">
               That creator is not on the public roster. Send a general enquiry
               instead.
             </p>
           ) : null}
         </div>
 
-        <div className="lg:col-span-7">
-          <ContactForm
-            creator={
-              creator
-                ? {
-                    display_name: creator.display_name,
-                    id: creator.id,
-                    slug: creator.slug,
-                  }
-                : null
-            }
-            creators={creators}
-            meetingUrl={meetingUrl}
-          />
+        <div className="glass lg:col-span-7">
+          <div className="px-5 py-8 sm:px-8">
+            <ContactForm
+              creator={
+                creator
+                  ? {
+                      display_name: creator.display_name,
+                      id: creator.id,
+                      slug: creator.slug,
+                    }
+                  : null
+              }
+              creators={creators}
+              meetingUrl={meetingUrl}
+            />
+          </div>
         </div>
       </Container>
     </main>

@@ -8,7 +8,18 @@ export type Json =
 
 export type ProfileRole = "admin" | "editor";
 export type CreatorStatus = "draft" | "published" | "archived";
-export type EnquiryStatus = "new" | "in_progress" | "closed";
+export type EnquiryStatus =
+  | "new"
+  | "contacted"
+  | "qualified"
+  | "closed"
+  | "spam";
+export type EnquiryType =
+  | "book_talent"
+  | "brand_partnership"
+  | "join_roster"
+  | "press"
+  | "general";
 
 export type Database = {
   public: {
@@ -24,12 +35,11 @@ export type Database = {
           full_bio: string | null;
           hero_image_path: string | null;
           id: string;
-          instagram_engagement_rate: number | null;
           instagram_followers: number | null;
           instagram_handle: string | null;
           instagram_url: string | null;
           manager_name: string | null;
-          other_social_links: Json | null;
+          other_social_links: Json;
           primary_category: string | null;
           profile_image_path: string | null;
           published_at: string | null;
@@ -41,7 +51,6 @@ export type Database = {
           status: CreatorStatus;
           updated_at: string;
           updated_by: string | null;
-          youtube_handle: string | null;
           youtube_subscribers: number | null;
           youtube_url: string | null;
         };
@@ -55,12 +64,11 @@ export type Database = {
           full_bio?: string | null;
           hero_image_path?: string | null;
           id?: string;
-          instagram_engagement_rate?: number | null;
           instagram_followers?: number | null;
           instagram_handle?: string | null;
           instagram_url?: string | null;
           manager_name?: string | null;
-          other_social_links?: Json | null;
+          other_social_links?: Json;
           primary_category?: string | null;
           profile_image_path?: string | null;
           published_at?: string | null;
@@ -72,7 +80,6 @@ export type Database = {
           status?: CreatorStatus;
           updated_at?: string;
           updated_by?: string | null;
-          youtube_handle?: string | null;
           youtube_subscribers?: number | null;
           youtube_url?: string | null;
         };
@@ -86,12 +93,11 @@ export type Database = {
           full_bio?: string | null;
           hero_image_path?: string | null;
           id?: string;
-          instagram_engagement_rate?: number | null;
           instagram_followers?: number | null;
           instagram_handle?: string | null;
           instagram_url?: string | null;
           manager_name?: string | null;
-          other_social_links?: Json | null;
+          other_social_links?: Json;
           primary_category?: string | null;
           profile_image_path?: string | null;
           published_at?: string | null;
@@ -103,77 +109,92 @@ export type Database = {
           status?: CreatorStatus;
           updated_at?: string;
           updated_by?: string | null;
-          youtube_handle?: string | null;
           youtube_subscribers?: number | null;
           youtube_url?: string | null;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "creators_created_by_fkey";
+            columns: ["created_by"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "creators_updated_by_fkey";
+            columns: ["updated_by"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       enquiries: {
         Row: {
           assigned_to: string | null;
           budget_range: string | null;
-          campaign_brief: string | null;
+          campaign_brief: string;
           campaign_timeline: string | null;
           company: string | null;
           created_at: string;
           creator_id: string | null;
           creator_name: string | null;
-          email: string;
-          enquiry_type: string | null;
+          enquiry_type: EnquiryType | null;
           id: string;
           internal_notes: string | null;
-          message: string;
           name: string;
           phone: string | null;
           preferred_meeting_date: string | null;
           status: EnquiryStatus;
           updated_at: string;
-          work_email: string | null;
+          work_email: string;
         };
         Insert: {
           assigned_to?: string | null;
           budget_range?: string | null;
-          campaign_brief?: string | null;
+          campaign_brief: string;
           campaign_timeline?: string | null;
           company?: string | null;
           created_at?: string;
           creator_id?: string | null;
           creator_name?: string | null;
-          email: string;
-          enquiry_type?: string | null;
+          enquiry_type?: EnquiryType | null;
           id?: string;
           internal_notes?: string | null;
-          message: string;
           name: string;
           phone?: string | null;
           preferred_meeting_date?: string | null;
           status?: EnquiryStatus;
           updated_at?: string;
-          work_email?: string | null;
+          work_email: string;
         };
         Update: {
           assigned_to?: string | null;
           budget_range?: string | null;
-          campaign_brief?: string | null;
+          campaign_brief?: string;
           campaign_timeline?: string | null;
           company?: string | null;
           created_at?: string;
           creator_id?: string | null;
           creator_name?: string | null;
-          email?: string;
-          enquiry_type?: string | null;
+          enquiry_type?: EnquiryType | null;
           id?: string;
           internal_notes?: string | null;
-          message?: string;
           name?: string;
           phone?: string | null;
           preferred_meeting_date?: string | null;
           status?: EnquiryStatus;
           updated_at?: string;
-          work_email?: string | null;
+          work_email?: string;
         };
         Relationships: [
+          {
+            foreignKeyName: "enquiries_assigned_to_fkey";
+            columns: ["assigned_to"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
           {
             foreignKeyName: "enquiries_creator_id_fkey";
             columns: ["creator_id"];
@@ -186,29 +207,37 @@ export type Database = {
       profiles: {
         Row: {
           created_at: string;
-          email: string | null;
           full_name: string | null;
           id: string;
+          is_active: boolean;
           role: ProfileRole;
           updated_at: string;
         };
         Insert: {
           created_at?: string;
-          email?: string | null;
           full_name?: string | null;
           id: string;
-          role: ProfileRole;
+          is_active?: boolean;
+          role?: ProfileRole;
           updated_at?: string;
         };
         Update: {
           created_at?: string;
-          email?: string | null;
           full_name?: string | null;
           id?: string;
+          is_active?: boolean;
           role?: ProfileRole;
           updated_at?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "profiles_id_fkey";
+            columns: ["id"];
+            isOneToOne: true;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       site_settings: {
         Row: {
@@ -232,19 +261,28 @@ export type Database = {
           updated_at?: string;
           updated_by?: string | null;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "site_settings_updated_by_fkey";
+            columns: ["updated_by"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
       };
     };
     Views: {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      is_backstage_admin: {
+        Args: Record<string, never>;
+        Returns: boolean;
+      };
     };
     Enums: {
-      creator_status: CreatorStatus;
-      enquiry_status: EnquiryStatus;
-      profile_role: ProfileRole;
+      [_ in never]: never;
     };
     CompositeTypes: {
       [_ in never]: never;

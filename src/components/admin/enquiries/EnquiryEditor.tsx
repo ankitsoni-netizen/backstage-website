@@ -12,6 +12,8 @@ import { formatAdminDate } from "@/lib/utilities/format";
 import {
   budgetRangeLabels,
   campaignTimelineLabels,
+  enquiryStatusLabels,
+  enquiryStatuses,
   enquiryTypeLabels,
   type BudgetRange,
   type CampaignTimeline,
@@ -26,7 +28,7 @@ type EnquiryEditorProps = {
   staff: Profile[];
 };
 
-const statuses: EnquiryStatus[] = ["new", "in_progress", "closed"];
+const statuses = enquiryStatuses;
 
 export function EnquiryEditor({
   creatorHref,
@@ -55,7 +57,7 @@ export function EnquiryEditor({
         <p>
           <span className="text-muted">Email</span>
           <br />
-          {enquiry.work_email || enquiry.email}
+          {enquiry.work_email}
         </p>
         {enquiry.phone ? (
           <p>
@@ -112,7 +114,7 @@ export function EnquiryEditor({
         <div>
           <p className="text-muted">Brief</p>
           <p className="mt-2 whitespace-pre-wrap leading-relaxed">
-            {enquiry.campaign_brief || enquiry.message}
+            {enquiry.campaign_brief}
           </p>
         </div>
       </section>
@@ -148,7 +150,7 @@ export function EnquiryEditor({
           >
             {statuses.map((item) => (
               <option key={item} value={item}>
-                {item.replace("_", " ")}
+                {enquiryStatusLabels[item]}
               </option>
             ))}
           </select>

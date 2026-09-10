@@ -17,13 +17,13 @@ export function LoadingBlock({
       aria-live="polite"
       className={cn("border border-line px-5 py-8 sm:px-8", className)}
     >
-      <p className="text-sm font-medium tracking-[0.16em] uppercase">{label}</p>
+      <p className="text-kicker">{label}</p>
       <div className="mt-6 flex flex-col gap-3" aria-hidden>
         {Array.from({ length: lines }, (_, index) => (
           <div
             key={index}
             className={cn(
-              "h-3 bg-line motion-safe:animate-pulse",
+              "h-3 bg-fill motion-safe:animate-pulse",
               index === lines - 1 ? "w-2/3" : "w-full",
             )}
           />

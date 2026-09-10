@@ -11,7 +11,9 @@ export function getSafeRedirectPath(
   if (
     !next.startsWith("/admin") ||
     next === "/admin/login" ||
-    next.startsWith("/admin/login/")
+    next.startsWith("/admin/login/") ||
+    next === "/admin/forgot-password" ||
+    next.startsWith("/admin/forgot-password/")
   ) {
     return fallback;
   }

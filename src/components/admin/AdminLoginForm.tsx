@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useActionState } from "react";
 
 import { Button } from "@/components/ui/Button";
@@ -68,6 +69,15 @@ export function AdminLoginForm({
       <Button type="submit" disabled={pending}>
         {pending ? "Signing in…" : "Sign in"}
       </Button>
+
+      <p className="text-sm text-muted">
+        <Link
+          href="/admin/forgot-password"
+          className="underline decoration-current/30 underline-offset-[0.3em] hover:text-admin-ink"
+        >
+          Forgot password?
+        </Link>
+      </p>
     </form>
   );
 }

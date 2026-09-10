@@ -6,5 +6,7 @@ type HighlightProps = {
 };
 
 export function Highlight({ children, className }: HighlightProps) {
-  return <em className={cn("text-highlight not-italic", className)}>{children}</em>;
+  return (
+    <em className={cn("text-highlight", className)}>{children}</em>
+  );
 }

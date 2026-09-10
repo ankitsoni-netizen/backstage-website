@@ -11,10 +11,6 @@ import type {
 } from "@/lib/validation/enquiry";
 import type { Enquiry } from "@/types/database";
 
-function isMissingColumnError(message: string): boolean {
-  return /column .* does not exist/i.test(message);
-}
-
 function toPublicInsert(input: EnquiryInput) {
   return {
     budget_range: input.budget_range,
@@ -23,9 +19,7 @@ function toPublicInsert(input: EnquiryInput) {
     company: input.company,
     creator_id: input.creator_id,
     creator_name: input.creator_name,
-    email: input.work_email,
     enquiry_type: input.enquiry_type,
-    message: input.campaign_brief,
     name: input.name,
     phone: input.phone,
     preferred_meeting_date: input.preferred_meeting_date,
@@ -36,24 +30,8 @@ function toPublicInsert(input: EnquiryInput) {
 
 export async function insertPublicEnquiry(input: EnquiryInput): Promise<void> {
   const supabase = createPublicClient();
-  const row = toPublicInsert(input);
-  const primary = await supabase.from("enquiries").insert(row);
-
-  if (primary.error && isMissingColumnError(primary.error.message)) {
-    const fallback = await supabase.from("enquiries").insert({
-      company: input.company,
-      creator_id: input.creator_id,
-      email: input.work_email,
-      message: input.campaign_brief,
-      name: input.name,
-      status: "new",
-    });
-
-    unwrapSupabaseResult(fallback.data, fallback.error, "Failed to submit enquiry");
-    return;
-  }
-
-  unwrapSupabaseResult(primary.data, primary.error, "Failed to submit enquiry");
+  const { error } = await supabase.from("enquiries").insert(toPublicInsert(input));
+  unwrapSupabaseResult(null, error, "Failed to submit enquiry");
 }
 
 export async function createEnquiry(input: EnquiryInput): Promise<Enquiry> {

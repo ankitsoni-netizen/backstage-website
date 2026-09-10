@@ -11,7 +11,7 @@ export default function WebsiteNotFound() {
         <h1 className="mt-5 max-w-[12ch] text-display">
           This page is not on the <Highlight>roster</Highlight>.
         </h1>
-        <p className="mt-6 max-w-prose text-lg leading-relaxed text-muted">
+        <p className="mt-6 max-w-[38rem] text-lg leading-relaxed text-muted">
           The page you asked for is unpublished, moved, or does not exist.
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
