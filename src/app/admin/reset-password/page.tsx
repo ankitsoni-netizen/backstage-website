@@ -4,6 +4,8 @@ import { AdminResetPasswordForm } from "@/components/admin/AdminResetPasswordFor
 import { Wordmark } from "@/components/shared/Wordmark";
 import { requireAdmin } from "@/lib/auth/session";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Reset password",
 };

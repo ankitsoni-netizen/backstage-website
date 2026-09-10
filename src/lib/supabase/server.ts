@@ -5,8 +5,8 @@ import { getSupabasePublicEnv } from "@/lib/utilities/env";
 import type { Database } from "@/types/database";
 
 export async function createClient() {
-  const { url, publicKey } = getSupabasePublicEnv();
   const cookieStore = await cookies();
+  const { url, publicKey } = getSupabasePublicEnv();
 
   return createServerClient<Database>(url, publicKey, {
     cookies: {
