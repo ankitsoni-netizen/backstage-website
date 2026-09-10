@@ -2,6 +2,8 @@ import { MotionRoot } from "@/components/motion/MotionRoot";
 import { SiteFooter } from "@/components/website/SiteFooter";
 import { SiteHeader } from "@/components/website/SiteHeader";
 
+export const dynamic = "force-dynamic";
+
 export default function WebsiteLayout({ children }: LayoutProps<"/">) {
   return (
     <MotionRoot>
