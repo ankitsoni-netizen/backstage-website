@@ -1,26 +1,278 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --ink: #161310;
+  --paper: #f3eee4;
+  --muted: #6d6458;
+  --line: #d8d0c3;
+  --signal: #c8f04c;
+  --orange: #ff4b12;
+  --powder: #c5d8ea;
+  --blush: #f1c4c8;
+  --admin-canvas: #f4f2ee;
+  --admin-ink: #1d1c1a;
+  --admin-muted: #6a6762;
+  --admin-line: #d6d2cb;
+  --admin-fill: #eae7e1;
+  --admin-danger: #9f2d1f;
+  --surface: var(--paper);
+  --foreground: var(--ink);
+  --focus: var(--ink);
+  --font-tempting: "Tempting", cursive;
+}
+
+[data-theme="admin"] {
+  --surface: var(--admin-canvas);
+  --foreground: var(--admin-ink);
+  --muted: var(--admin-muted);
+  --line: var(--admin-line);
+  --focus: var(--admin-ink);
+}
+
+@font-face {
+  font-family: "Tempting";
+  src:
+    local("Tempting"),
+    local("Tempting Regular"),
+    url("/fonts/Tempting.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
 @theme inline {
-  --color-background: var(--background);
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-signal: var(--signal);
+  --color-orange: var(--orange);
+  --color-powder: var(--powder);
+  --color-blush: var(--blush);
+  --color-surface: var(--surface);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-admin-canvas: var(--admin-canvas);
+  --color-admin-ink: var(--admin-ink);
+  --color-admin-muted: var(--admin-muted);
+  --color-admin-line: var(--admin-line);
+  --color-admin-fill: var(--admin-fill);
+  --color-admin-danger: var(--admin-danger);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-script: var(--font-tempting);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    border-color: var(--line);
+  }
+
+  html {
+    height: 100%;
+    background: var(--surface);
+    color: var(--foreground);
+  }
+
+  body {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    color: var(--foreground);
+    font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: clip;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 6vw, 4.5rem);
+  }
+
+  h2 {
+    font-size: clamp(1.5rem, 4vw, 3rem);
+  }
+
+  h3 {
+    font-size: clamp(1.25rem, 2.4vw, 1.875rem);
+  }
+
+  h4 {
+    font-size: 1.125rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+
+  strong,
+  b {
+    font-weight: 700;
+  }
+
+  p,
+  li {
+    text-wrap: pretty;
+  }
+
+  a,
+  button,
+  input,
+  textarea,
+  select,
+  summary {
+    border-radius: 0;
+  }
+
+  :focus {
+    outline: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+  }
+
+  .surface-ink {
+    --focus: var(--signal);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@utility text-display {
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(2.75rem, 13vw, 8.75rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+@utility text-title {
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(1.75rem, 5vw, 3.75rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+@utility text-highlight {
+  display: inline;
+  font-family: var(--font-tempting);
+  font-weight: 400;
+  font-style: normal;
+  font-synthesis: none;
+  letter-spacing: 0.01em;
+  line-height: 1;
+}
+
+@utility grain {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  opacity: 0.055;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(0.8rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes slow-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(3.5%, -4%, 0);
+  }
+}
+
+@keyframes ticker {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+[data-motion-ready] .reveal-up {
+  animation: fade-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+[data-motion-ready] .stagger-children > * {
+  animation: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+
+[data-motion-ready] .stagger-children > *:nth-child(1) { --i: 0; }
+[data-motion-ready] .stagger-children > *:nth-child(2) { --i: 1; }
+[data-motion-ready] .stagger-children > *:nth-child(3) { --i: 2; }
+[data-motion-ready] .stagger-children > *:nth-child(4) { --i: 3; }
+[data-motion-ready] .stagger-children > *:nth-child(5) { --i: 4; }
+[data-motion-ready] .stagger-children > *:nth-child(6) { --i: 5; }
+[data-motion-ready] .stagger-children > *:nth-child(7) { --i: 6; }
+[data-motion-ready] .stagger-children > *:nth-child(8) { --i: 7; }
+[data-motion-ready] .stagger-children > *:nth-child(9) { --i: 8; }
+[data-motion-ready] .stagger-children > *:nth-child(10) { --i: 9; }
+[data-motion-ready] .stagger-children > *:nth-child(11) { --i: 10; }
+[data-motion-ready] .stagger-children > *:nth-child(n + 12) { --i: 11; }
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  html[data-public-motion="lenis"] {
+    scroll-behavior: auto;
+  }
+
+  [data-motion-ready] .reveal-up,
+  [data-motion-ready] .stagger-children > * {
+    animation: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
